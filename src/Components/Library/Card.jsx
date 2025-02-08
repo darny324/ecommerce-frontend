@@ -37,11 +37,13 @@ const StarRating = (prop) => {
 const Card = (prop) => {
   const {item} = prop;
   return (
-    <div className="w-[250px] px-4 py-2 relative  shadow-[0px_0px_10px_rgba(0,0,0,0.25)]
+    <div className=" px-4 py-2 relative  shadow-[0px_0px_10px_rgba(0,0,0,0.25)]
     flex flex-col justify- bg-slate-200 cursor-pointer hover:scale-105 
     transition-[scale_1s_back-in-out]
     ">
-      <img className="w-[96%] h-[250px]  object-contain" src={item.image}/>
+      <div className="w-full flex justify-center">
+      <img className="w-[200px] h-[200px]  object-contain" src={item.image}/>
+      </div>
       <span className="text-gray-500 text-sm">{item.brand}</span>
       <p className="font-semibold hover:text-green-700
       transition-[color_1s_ease-in-out]">{item.name}</p>

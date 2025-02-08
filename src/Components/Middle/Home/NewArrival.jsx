@@ -39,7 +39,7 @@ const NewArrival = () => {
   
   return (
     <div className='flex flex-col items-center py-6
-     w-full relative
+     w-full relative px-12
     '>
       <h1 className='mt-8'>New Arrival</h1>
       <p className='text-center text-base text-slate-300 mb-8'>Explore more, buy more</p>

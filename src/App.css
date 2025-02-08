@@ -1,0 +1,27 @@
+@import 'tailwindcss';
+
+@utility scrollbar-hidden {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer base {
+  h1{
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  h2{
+    font-size: 1.25rem; 
+    font-weight:600;
+  }
+}
+
+@layer components {
+  .banner {
+    background-image: url('/src/assets/banner-computer.webp');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+}

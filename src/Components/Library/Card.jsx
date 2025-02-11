@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { motion } from "framer-motion";
 
 const HalfStar = (prop) => {
   const {isDisplay} = prop;
@@ -35,9 +36,14 @@ const StarRating = (prop) => {
 }
 
 const Card = (prop) => {
+  const children = {
+    hidden: { x: 10,  }, 
+    show: {x: 0, }
+  }
   const {item} = prop;
+  
   return (
-    <div className=" px-4 py-2 relative  shadow-[0px_0px_10px_rgba(0,0,0,0.25)]
+    <motion.div variants={children} className=" px-4 py-2 relative  shadow-[0px_0px_10px_rgba(0,0,0,0.25)]
     flex flex-col justify- bg-slate-200 cursor-pointer hover:scale-105 
     transition-[scale_1s_back-in-out]
     ">
@@ -55,7 +61,7 @@ const Card = (prop) => {
       hover:scale-105 transition-[scale_0.5s_back-in-out]
       hover:opacity-85
       "><FontAwesomeIcon icon='cart-shopping'/></button>
-    </div>
+    </motion.div>
   )
 }
 

@@ -20,8 +20,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const elec = [
   {name: 'desktop', image:DesktopImg}, 
-  {name: 'phone', image:CameraImg }, 
-  {name: 'camera', image:PhoneImg}, 
+  {name: 'phone', image:PhoneImg }, 
+  {name: 'camera', image:CameraImg}, 
   {name: 'headphones', image:headPhoneImg}, 
 ]
 
@@ -55,14 +55,14 @@ const Menu = () => {
       grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-items-center box-border
       gap-4
       '>
-        <MenuCard title='Electronics' items={elec} to='electronics'  />
-        <MenuCard title='Clothings' items={clothes} to='sports' />
-        <MenuCard title='Sports' items={sports} to='clothes' />
-        <MenuCard title='Books and stationaries' items={books} to='books' />
+        <MenuCard title='Electronics' items={elec} to='products?type=electronics'  />
+        <MenuCard title='Clothings' items={clothes} to='products?type=sports' />
+        <MenuCard title='Sports' items={sports} to='products?type=clothes' />
+        <MenuCard title='Books and stationaries' items={books} to='products?type=books-&-stationery' />
         <span className='m-auto text-blue-600 hover:text-blue-400
         transition-color duration-500 ease-in-out
         '>
-          <Link>
+          <Link to='/shop/products'>
             <span className='mr-2'>See All</span>
             <FontAwesomeIcon icon='arrow-right' />
           </Link>

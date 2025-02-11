@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import laptopImg from '../../../assets/Laptop-computer.webp'
 import Card from '../../Library/Card'
 
@@ -35,10 +36,26 @@ const arr = [
 ];
 
 const NewArrival = () => {
-  
+  const container = {
+    hidden: {
+      x: 200, 
+    }, 
+    show: {
+      x: 0, 
+      transition: {
+        duration: 1,  
+        type: 'tween' 
+      }
+    }, 
+  }
+
   
   return (
-    <div className='flex flex-col items-center py-6
+    <motion.div 
+    variants={container}
+    initial='hidden'
+    whileInView='show'
+    className='flex flex-col items-center py-6
      w-full relative px-12
     '>
       <h1 className='mt-8'>New Arrival</h1>
@@ -50,7 +67,7 @@ const NewArrival = () => {
           })
         }
       </div>
-    </div>
+    </motion.div>
   )
 }
 

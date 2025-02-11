@@ -6,18 +6,17 @@ import "@fortawesome/free-solid-svg-icons"
 import "@fortawesome/fontawesome-svg-core"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faArrowLeft, faArrowRight, faB, faBars, faCartShopping, faChevronDown, faSearch, faShoppingBag, faStar, faStarHalf, faStarHalfStroke } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faArrowRight, faB, faBars, faCartShopping, faChevronDown, faChevronLeft, faChevronRight, faChevronUp, faSearch, faShoppingBag, faStar, faStarHalf, faStarHalfStroke } from '@fortawesome/free-solid-svg-icons'
 import Home from './Components/Middle/Home/Home.jsx'
 import { faFacebook, faInstagram, faTelegram, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons'
 import Shop from './Components/Middle/Shop/Shop.jsx'
-import Electronic from './Components/Middle/Shop/Electronic.jsx'
-import Sports from './Components/Middle/Shop/Sports.jsx'
-import Clothing from './Components/Middle/Shop/Clothing.jsx'
-import Books from './Components/Middle/Shop/Books.jsx'
 import Menu from './Components/Middle/Shop/Menu.jsx'
+import Products from './Components/Middle/Shop/Products.jsx'
+import SingleProduct from './Components/Middle/Shop/SingleProduct.jsx'
 library.add(faB, faShoppingBag, faBars, faCartShopping, faStar, 
   faStarHalf, faStarHalfStroke, faArrowRight, faArrowLeft, faFacebook, 
-faTwitter, faInstagram, faTelegram, faYoutube, faSearch, faChevronDown);
+faTwitter, faInstagram, faTelegram, faYoutube, faSearch, faChevronDown, 
+faChevronLeft, faChevronRight, faChevronUp, faChevronDown);
 
 const routes = createBrowserRouter([
   {
@@ -37,20 +36,12 @@ const routes = createBrowserRouter([
             element: <Menu />
           }, 
           {
-            path: 'electronics', 
-            element: <Electronic />
+            path: 'products', 
+            element: <Products />
           }, 
           {
-            path: 'sports', 
-            element: <Sports />
-          }, 
-          {
-            path: 'clothes',
-            element: <Clothing /> 
-          }, 
-          {
-            path: 'books', 
-            element: <Books />
+            path: 'products/:id', 
+            element: <SingleProduct />
           }
         ]
       }, 

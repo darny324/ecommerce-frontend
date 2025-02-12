@@ -6,7 +6,7 @@ import "@fortawesome/free-solid-svg-icons"
 import "@fortawesome/fontawesome-svg-core"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faArrowLeft, faArrowRight, faB, faBars, faCartShopping, faChevronDown, faChevronLeft, faChevronRight, faChevronUp, faSearch, faShoppingBag, faStar, faStarHalf, faStarHalfStroke } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faArrowRight, faB, faBars, faCartShopping, faChevronDown, faChevronLeft, faChevronRight, faChevronUp, faSearch, faShoppingBag, faShoppingCart, faStar, faStarHalf, faStarHalfStroke } from '@fortawesome/free-solid-svg-icons'
 import Home from './Components/Middle/Home/Home.jsx'
 import { faFacebook, faInstagram, faTelegram, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons'
 import Shop from './Components/Middle/Shop/Shop.jsx'
@@ -16,7 +16,7 @@ import SingleProduct from './Components/Middle/Shop/SingleProduct.jsx'
 library.add(faB, faShoppingBag, faBars, faCartShopping, faStar, 
   faStarHalf, faStarHalfStroke, faArrowRight, faArrowLeft, faFacebook, 
 faTwitter, faInstagram, faTelegram, faYoutube, faSearch, faChevronDown, 
-faChevronLeft, faChevronRight, faChevronUp, faChevronDown);
+faChevronLeft, faChevronRight, faChevronUp, faChevronDown, faShoppingCart);
 
 const routes = createBrowserRouter([
   {

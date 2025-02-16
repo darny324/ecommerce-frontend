@@ -1,6 +1,6 @@
 import  "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import logoName from '../../assets/logo-name.png'
@@ -8,8 +8,16 @@ import logoName from '../../assets/logo-name.png'
 const items = ['Home', 'Shop', 'About' ,'Contact', 'Counter'];
 
 const NavBar = () => {
-  const [selected, setSelected] = useState('Home');
+  const {pathname} = useLocation();
+  let path;
+  if ( pathname.startsWith('/')) path = 'Home'; 
+  if ( pathname.startsWith('/shop')) path = "Shop"; 
+  if ( pathname.startsWith('/about')) path = "About";
+  if ( pathname.startsWith('/contact')) path = "Contact";
+  if ( pathname.startsWith('/counter')) path = 'Counter';
+  const [selected, setSelected] = useState(path);
   const [clickMenu, setClickMenu] = useState(false);
+  
   return (
     <nav className='flex shadow-[0px_5px_5px_rgba(0,0,0,0.25)] h-12 justify-between items-center px-4 sm:px-16 z-10 sticky top-0 bg-stone-100'>
       <div>
@@ -96,7 +104,7 @@ const NavBar = () => {
               let path = item.toLowerCase();
               if ( path === 'home') path = '';
               return (
-                <Link key={item} to={path} onClick={() => setSelected(item)} className="relative">
+                <Link key={item} to={path} onClick={() => {setSelected(item); setClickMenu(false);}} className="relative">
                   <motion.span whileHover={{
                     color: '#2199de', 
                   }}>

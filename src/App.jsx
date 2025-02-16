@@ -8,7 +8,7 @@ import "@fortawesome/fontawesome-svg-core"
 function App() {
 
   return (
-    <main className='font-mono'>
+    <main className=''>
       <NavBar />
       <Outlet />
       <Footer />

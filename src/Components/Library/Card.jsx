@@ -24,12 +24,14 @@ const Card = (prop) => {
       transition-[color_1s_ease-in-out]">{item.name}</p>
       <StarRating rating={item.rating} />
       <div className="text-green-700 font-semibold text-lg">${item.price.toFixed(2)}</div>
-      <button className="
+      <a 
+      href="/shop/products/123"
+      className="
       absolute right-5 bottom-2 cursor-pointer text-green-400
       bg-gray-300 w-8 h-8 flex justify-center items-center rounded-full
       hover:scale-105 transition-[scale_0.5s_back-in-out]
       hover:opacity-85
-      "><FontAwesomeIcon icon='cart-shopping'/></button>
+      "><FontAwesomeIcon icon='cart-shopping'/></a>
     </motion.div>
   )
 }

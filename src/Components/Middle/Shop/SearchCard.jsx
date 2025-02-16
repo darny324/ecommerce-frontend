@@ -1,10 +1,14 @@
+import { motion } from "framer-motion";
 import StarRating from "../../Library/StarRating";
 
 
 const SearchCard = (prop) => {
-  const {product} = prop;
+  const {product, itemVariant} = prop;
+  
   return (
-    <div className="flex items-center gap-4 px-4">
+    <motion.div 
+    variants={itemVariant}
+    className="flex items-center gap-4 px-4">
       <div className="w-32 h-32 shrink-0"><img src={product.image} className="w-full h-full object-contain" /></div>
       <div>
         <h2 className="text-lg md:text-xl line-clamp-2 overflow-hidden">{product.name}</h2>
@@ -17,7 +21,7 @@ const SearchCard = (prop) => {
         transition-color duration-300 ease-in cursor-pointer
         hover:border-none hover:bg-black hover:text-white">See More</a>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

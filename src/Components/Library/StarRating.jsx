@@ -10,20 +10,25 @@ const HalfStar = (prop) => {
 
 
 const StarRating = (prop) => {
-  const {rating} = prop; 
+  const {rating, size} = prop; 
   const fullstars = Math.trunc(rating);
   const noStars = Math.trunc(5-rating);
   const fraction = rating - fullstars; 
   const isHalfStar = (fraction >= 0.5);
   return (
-    <div >
+    <div style={{
+      fontSize: size ? size : '16px'
+    }} >
       {
         [...Array(fullstars)].map((_, i) => {
           
           return <FontAwesomeIcon icon='star' key={i+ '+fullstar'} className="text-yellow-400" />
         })
       }
-      <HalfStar isDisplay={isHalfStar} />
+      {
+        isHalfStar &&  <HalfStar isDisplay={isHalfStar} />
+      }
+     
       {
         [...Array(noStars)].map((_, i) => {
           

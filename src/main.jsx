@@ -13,6 +13,13 @@ import Shop from './Components/Middle/Shop/Shop.jsx'
 import Menu from './Components/Middle/Shop/Menu.jsx'
 import Products from './Components/Middle/Shop/Products.jsx'
 import SingleProduct from './Components/Middle/Shop/SingleProduct.jsx'
+import About from './Components/Middle/About/About.jsx'
+import Contact from './Components/Middle/Contact/Contact.jsx'
+import Counter from './Components/Middle/Counter/Counter.jsx'
+import { Provider } from 'react-redux'
+import store from './Components/redux/store.js'
+import SignIn from './Components/Auth/SignIn.jsx'
+import SignUp from './Components/Auth/SignUp.jsx'
 library.add(faB, faShoppingBag, faBars, faCartShopping, faStar, 
   faStarHalf, faStarHalfStroke, faArrowRight, faArrowLeft, faFacebook, 
 faTwitter, faInstagram, faTelegram, faYoutube, faSearch, faChevronDown, 
@@ -47,27 +54,35 @@ const routes = createBrowserRouter([
       }, 
       {
         path: '/about', 
-        element: <>about</>
+        element: <About />
       }, 
       {
         path: 'counter', 
-        element: <>Counter</>
+        element: <Counter />
       }, 
       {
         path: 'contact', 
-        element: <>Contact</>
+        element: <Contact />
       }
     ]
   },
   {
-    path: '/home', 
-    element: <div>Hello</div>  
+    path: '/sign-in', 
+    element: <SignIn />
+  }, 
+  {
+    path: '/sign-up', 
+    element: <SignUp />
   }
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={routes}><App /></RouterProvider>
+    <Provider store={store}>
+    <RouterProvider router={routes}>
+        <App />
+    </RouterProvider>
+    </Provider>
     
   </StrictMode>,
 )

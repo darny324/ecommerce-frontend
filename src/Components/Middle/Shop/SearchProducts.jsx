@@ -4,6 +4,7 @@ import {  useSearchParams } from "react-router-dom";
 import laptopImg from '../../../assets/laptop.png'
 import desktopImg from '../../../assets/desktop.png'
 import SearchCard from "./SearchCard";
+import { motion } from "framer-motion";
 
 const products = [
   {
@@ -138,14 +139,43 @@ const SearchProducts = () => {
   
   const totlaPages = 23; 
 
+  const container = {
+    hidden: {
+      y: 80, 
+      opacity: 0, 
+    }, 
+    show: {
+      y: 0, 
+      opacity: 1, 
+      transition: {
+        staggerChildren: 0.1, 
+        duration: 1, 
+      }
+    }, 
+    
+  }
+  const itemVariant = {
+    hidden: {
+      y: 20, 
+      opacity: 0, 
+    }, 
+    show: {
+      y: 0, 
+      opacity: 1, 
+    }
+  }
   
   return (
     <div>
-      <div className="flex flex-col gap-6 md:ml-8 mt-4">
+      <motion.div 
+      variants={container}
+      initial='hidden' 
+      animate='show'
+      className="flex flex-col gap-6 md:ml-8 mt-4">
       {
-        products.map(p => <SearchCard key={p.name + '+searchcard'} product={p} />)
+        products.map(p => <SearchCard key={p.name + '+searchcard'} itemVariant={itemVariant} product={p} />)
       }
-      </div>
+      </motion.div>
       <Pagination totalPages={totlaPages} />
     </div>
   )

@@ -1,6 +1,5 @@
 import laptopImg from '../../../assets/Laptop-computer.webp'
 import Card from '../../Library/Card'
-import { motion } from 'framer-motion';
 
 const arr = [
   {
@@ -38,38 +37,24 @@ const arr = [
 
 
 const FeaturedProducts = () => {
-  const container = {
-    hidden: {
-      x: -200, 
-    }, 
-    show: {
-      x: 0, 
-      transition: {
-        duration: 1,  
-        type: 'tween' 
-      }
-    }, 
-  }
+  
   
   
   return (
-    <motion.div className='flex flex-col items-center py-6
+    <div className='flex flex-col items-center py-6
      w-full relative px-12
     '>
       <h1 className='mt-8'>Featured Products</h1>
       <p className='text-center text-base text-slate-300 mb-8'>Explore more, buy more</p>
-      <motion.div 
-      variants={container}
-      initial='hidden'
-      whileInView='show'
+      <div 
       className="grid lg:grid-cols-4 grid-rows-1 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8">
         {
           arr.map((a, i) => {
             return <Card key={i + '+featured'} item={a} />
           })
         }
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   )
 }
 

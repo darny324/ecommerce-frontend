@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <div className="mt-4">
       <div 
-      className="h-56 sm:h-40 md:h-32 bg-[#000053] gap-6 flex md:flex-row flex-col md:justify-between justify-center items-center px-24">
+      className="h-56 sm:h-40 md:h-32 bg-[#000053] gap-6 flex md:flex-row flex-col md:justify-between justify-center text-center items-center px-24">
         <div>
           <p className="font-bold text-xl text-white">Sign up for ShopSphere</p>
           <p className="text-gray-400">Get email about our latest shops and <span className="text-yellow-400">special offers</span></p>

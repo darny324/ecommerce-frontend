@@ -14,7 +14,7 @@ const ChoiceList = () => {
   }
 
   const changeType = (type) => {
-    setSearchParams({...param, type: type});
+    setSearchParams({ page: 1, type: type});
     setIsShow(false);
     window.location.reload();
   }

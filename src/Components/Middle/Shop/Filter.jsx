@@ -1,6 +1,5 @@
 import { useState } from "react";
 import CheckSection from "./CheckSection";
-import ChoiceList from "./ChoiceList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -46,31 +45,47 @@ const Filter = (prop) => {
          {isShow ? <FontAwesomeIcon icon='chevron-up' /> : <FontAwesomeIcon icon='chevron-down' />}
       </button>
 
+      
       <AnimatePresence>
       {
         isShow && <motion.div
-        initial={{y: 500}}
-        animate={{y: 50}}
+        initial={{opacity: 0}}
+        animate={{opacity: 1}}
         transition={{
-          duration: 0.8, 
+          duration: 0.4, 
           type: 'tween', 
           ease: 'easeInOut'
         }}
-        exit={{y:500}}
-        className="px-4 rounded-lg absolute bg-[#f3eded] py-2 h-[500px] w-[100vw] overflow-y-scroll scrollbar-hidden"
+        exit={{opacity: 0}}
+        className="fixed right-0 top-0 bg-[#d1bcbca2] w-screen h-screen flex items-center overflow-y-scroll scrollbar-hidden"
         >
-        <div>
-          <p>${sliderValue.toFixed(2)}</p>
-          <input type="range" min='20' max='20000' value={sliderValue}
-          onChange={(e) => setSliderValue(parseInt(e.target.value))}
-          />
-          <button className="border border-gray-400 cursor-pointer hover:bg-gray-200 px-2 rounded-3xl">Find</button>
-        </div>
-        <ChoiceList />
-        <CheckSection title='Ratings'  options={ratings} filterType='numeric' />
-        <CheckSection title='Discount'  options={discount} filterType='numeric' />
-        <CheckSection title='Condition'   options={[{label:'new', value: 'condition=new'}, {label:'used', value: 'condition=used'}]} filterType='numeric' />
-        {children}
+        <motion.div 
+        initial={{y:300}}
+        animate={{y:0}}
+        transition={{
+          duration: 1,
+          ease: 'easeInOut'
+        }}
+        exit={{y:300}}
+        className="px-4 rounded-lg bg-white  py-2 h-[500px] w-[100vw] overflow-y-scroll scrollbar-hidden">
+          <div>
+            <p>${sliderValue.toFixed(2)}</p>
+            <input type="range" min='20' max='20000' value={sliderValue}
+            onChange={(e) => setSliderValue(parseInt(e.target.value))}
+            />
+            <button className="border border-gray-400 cursor-pointer hover:bg-gray-200 px-2 rounded-3xl">Find</button>
+          </div>
+          <CheckSection title='Ratings'  options={ratings} filterType='numeric' />
+          <CheckSection title='Discount'  options={discount} filterType='numeric' />
+          <CheckSection title='Condition'   options={[{label:'new', value: 'condition=new'}, {label:'used', value: 'condition=used'}]} filterType='numeric' />
+          {children}
+
+          <button 
+          onClick={() => {setIsShow(false)}}
+          className="text-white bg-black px-4 py-2 rounded-lg mt-2">
+            Close
+          </button>
+        </motion.div>
       </motion.div>
       }
       </AnimatePresence>

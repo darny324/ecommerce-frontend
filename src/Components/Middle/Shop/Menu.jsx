@@ -55,10 +55,7 @@ const Menu = () => {
       grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 justify-items-center box-border
       gap-4
       '>
-        <MenuCard title='Electronics' items={elec} to='products?type=electronics'  />
-        <MenuCard title='Clothings' items={clothes} to='products?type=sports' />
-        <MenuCard title='Sports' items={sports} to='products?type=clothes' />
-        <MenuCard title='Books and stationaries' items={books} to='products?type=books-&-stationery' />
+        <MenuCard title='Electronics' items={elec} to='products'  />
         <span className='m-auto text-blue-600 hover:text-blue-400
         transition-color duration-500 ease-in-out
         '>

@@ -21,7 +21,7 @@ const Card = (prop) => {
       </div>
       <span className="text-gray-500 text-sm">{item.brand}</span>
       <p className="font-semibold hover:text-green-700
-      transition-[color_1s_ease-in-out]">{item.name}</p>
+      transition-[color_1s_ease-in-out] line-clamp-3 overflow-ellipsis">{item.name}</p>
       <StarRating rating={item.rating} />
       <div className="text-green-700 font-semibold text-lg">${item.price.toFixed(2)}</div>
       <a 

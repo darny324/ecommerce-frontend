@@ -20,10 +20,10 @@ const NavBar = () => {
   
   return (
     <nav className='flex shadow-[0px_5px_5px_rgba(0,0,0,0.25)] h-12 justify-between items-center px-4 sm:px-16 z-10 sticky top-0 bg-stone-100'>
-      <div>
+      <Link to='/'>
         <img src={logoName} className="w-32"
         />
-      </div>
+      </Link>
       <button className="sm:hidden cursor-pointer" onClick={() => setClickMenu(!clickMenu)}>
         <FontAwesomeIcon icon='bars' />
       </button>

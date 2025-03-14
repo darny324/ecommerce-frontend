@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState } from "react"
-import ChoiceList from "./ChoiceList";
 
 
 
@@ -11,7 +10,6 @@ const SearchBox = () => {
   return (
     <div className="flex justify-center  mt-8">
       <div className="flex md:w-[50%] items-center">
-        <span className="hidden md:block"><ChoiceList /></span>
         <input 
         type="text" 
         value={input} 

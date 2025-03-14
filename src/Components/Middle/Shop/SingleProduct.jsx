@@ -1,10 +1,11 @@
 import Laptop from '../../../assets/laptop.png'
 import Desktop from '../../../assets/desktop.png'
 import Computer from '../../../assets/banner-computer.webp'
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import StarRating from '../../Library/StarRating';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Modal from '../../Library/Modal';
 
 const product = {
   id: "soundmax-pro-x3",
@@ -13,11 +14,28 @@ const product = {
   brand: "SoundMax",
   price: 199.99,
   discount: 0.2,
-  totalStock: 6, 
-  colorOptions: [
-     {color: '#000000', inStock: 1},
-     {color: '#ffffff', inStock: 2},
-     {color: '#6CB4EE', inStock: 3}, 
+  quantity: 6, 
+  options: [
+    {
+      label: "Normal", 
+      price: 199.99, 
+      quantity: 6,
+    },
+    {
+      label: "Writing random nonsense bunch of things to make it longer", 
+      price: 209.99, 
+      quantity: 3,
+    }, 
+    {
+      label: "Green", 
+      price: 209.99, 
+      quantity: 4,
+    }, 
+    {
+      label: "Red", 
+      price: 209.99, 
+      quantity: 5,
+    }
   ],
   description: "Industry-leading Active Noise Cancellation (ANC) with up to 40 hours of battery life and Bluetooth 5.2 for ultra-fast pairing.",
   attributes: {
@@ -68,7 +86,7 @@ const Detail = (prop) => {
   const {addition, returnPolicy} = prop; 
   const features = Object.entries(addition);
   return (
-    <div className='flex flex-col gap-4 w-[50%]'>
+    <div className='flex flex-col gap-4 w-[90%] md:w-[50%]'>
 
       <div>
         <h2>Description</h2>
@@ -99,7 +117,7 @@ const Detail = (prop) => {
 const Review = (prop) => {
   const {rating, reviews, totalReviews} = prop;
   return (
-    <div className='w-[60%]'>
+    <div className='md:w-[60%] w-[90%]'>
       <div className='text-center'>
         <StarRating rating={rating} size='24px' />
         <p className='text-gray-500'>{totalReviews} reviews</p>
@@ -136,11 +154,10 @@ const SingleProduct = () => {
   const [selected, setSelected] = useState('detail');
   const [showAll, setShowAll] = useState(false);
   const [quantity, setQuantity] = useState(0);
-  const [size, setSize] = useState('L');
   const information = Object.entries(product.attributes);
   const visibleInfo = showAll ? information : information.slice(0, 0);
-  const [selectedColor, setSelectedColor] = useState(product.colorOptions[0].color);
-  const inStock = useRef(product.colorOptions ? product.colorOptions[0].inStock : product.totalStock);
+  const [selectedOption, setSelectedOption] = useState(0);
+  const inStock = useRef(product.quantity);
   
   
 
@@ -168,9 +185,9 @@ const SingleProduct = () => {
     <div className='flex flex-col items-center'>
       
 
-      <div className="flex  mt-12 gap-8">
+      <div className="flex md:flex-row flex-col items-center md:px-8  mt-12 gap-8">
       
-        <div className='flex flex-col gap-2 w-96'>
+        <div className='flex flex-col gap-2 w-76 md:w-96'>
           <motion.div
           key={selectedImg}
           initial={{scale: 0}}
@@ -178,7 +195,7 @@ const SingleProduct = () => {
           transition={{ease: 'circInOut', duration: 0.5, }}
           >
           <motion.img 
-          src={selectedImg} className='w-full h-96 rounded-lg border-1 border-gray-300 bg-[#bd9090b8] object-contain'/>
+          src={selectedImg} className='w-full h-52 md:h-96 rounded-lg border-1 border-gray-300 bg-[#bd9090b8] object-contain'/>
           </motion.div>
           <div className='grid grid-cols-4 gap-2'>
             {
@@ -192,11 +209,11 @@ const SingleProduct = () => {
           </div>
         </div>
 
-        <div className='w-[32rem] flex flex-col gap-2'>
-          <div className='font-semibold'>
-            shop &gt; products &gt; {product.shortName}
+        <div className='md:w-[32rem] w-76 flex flex-col gap-2'>
+          <div className='font-semibold text-gray-500'>
+            shop/products/{product.shortName}
           </div>
-          <h1>{product.name}</h1>
+          <h1 className='text-lg'>{product.name}</h1>
           <span className='flex gap-2 text-gray-400 text-sm'>
             <StarRating rating={product.rating} /> <span>{product.totalReviews} reviews</span>
           </span>
@@ -205,14 +222,14 @@ const SingleProduct = () => {
             {
               product.discount !== 0 ? 
               <>
-              <span className='text-xl font-semibold ml-2'>${Math.floor(product.price * (1 - product.discount) * 100) /100}</span>
-              <span className='text-xl text-red-400 ml-2'>-{product.discount * 100}%</span>
+              <span className='md:text-xl font-semibold ml-2'>${Math.floor(product.price * (1 - product.discount) * 100) /100}</span>
+              <span className='md:text-xl text-red-400 ml-2'>-{product.discount * 100}%</span>
               </> : <></>
             } 
           </p>
 
           <div>
-            <h2>Products Information</h2>
+            <h2 className='md:text-xl text-lg'>Products Information</h2>
             <table className="w-full">
               <motion.tbody>
                 <AnimatePresence>
@@ -237,48 +254,68 @@ const SingleProduct = () => {
             layout='preserve-aspect'
             className='
             text-blue-500 hover:text-blue-300 transition-colors duration-500
-            ease-in-out flex items-center gap-2'
+            ease-in-out md:text-bg text-sm flex items-center gap-2'
             onClick={() => setShowAll(!showAll)}
+            on
             >
               <span>{showAll ? 'See less' : 'See more'}</span>
               <FontAwesomeIcon icon={showAll ? 'chevron-up' : 'chevron-down'} />
             </motion.button>
           </div>
           {
-            product.colorOptions && <div>
-            <h2>Color</h2>
+            product.options && <div>
             <div className='flex gap-2'>
               {
-                product.colorOptions.map( (option) => {
+                product.options.map( (option, index) => {
+                  const [modal, setModal] = useState(false);
+                  const [isLongPress, setIsLongPress] = useState(false);
+                  const timeRef = useRef(null);
+                  useEffect(() => {
+                    if ( isLongPress ){
+                      setModal(true);
+                    }
+                  }, [isLongPress])
                   return <div 
-                  key={option.color + 'color'} 
                   onClick={() => {
-                    setSelectedColor(option.color); 
-                    inStock.current = option.inStock;
-                  }} 
-                  style={{backgroundColor: option.color}} 
-                  className={`w-6 h-6 rounded-full border-2
-                  ${selectedColor === option.color ? 'border-red-400' : 'border-gray-400'}`} ></div>
+                    setSelectedOption(index);
+                    inStock.current = option.quantity;
+                  }}
+                  onTouchStart={() => {
+                    timeRef.current = setTimeout(() => {
+                      setIsLongPress(true);
+                    }, 500);
+                  }}
+                  onTouchEnd={() => {
+                    if ( timeRef.current) clearTimeout(timeRef.current);
+                    setIsLongPress(false);
+                  }}
+                  onDoubleClick={() => setModal(true)}
+                  
+                  key={option.label + index} 
+                  className={`w-22 h-22 p-1 rounded-md cursor-pointer bg-stone-100 shadow-xl ${selectedOption === index ? 'border border-blue-600': ''}`}>
+                    <p className='line-clamp-2 text-sm text-ellipsis'>{option.label}</p>
+                    <p className='text-red-300 text-xs'>${option.price}</p>
+                    <p className='text-xs'>{option.quantity}</p>
+                    <AnimatePresence>
+                      {modal && <Modal width='200px'>
+                        <div 
+                          onClick={() => setModal(false)}
+                          className='w-8 h-8 flex hover:bg-stone-200 cursor-pointer justify-center items-center bg-stone-300 absolute rounded-full right-2 top-2'>
+                            <FontAwesomeIcon icon='fas fa-xmark' />
+                        </div>
+                        <div>{option.label}</div>
+                        <div className='text-red-300 mt-3'>$ {option.price}</div>
+                        <div>Quantity: {option.quantity}</div>
+                      </Modal>}
+                    </AnimatePresence>
+                  </div>
                 })
               }
             </div>
           </div>
           }
 
-          {
-            product.sizes && <div>
-              <span className='font-semibold'>Sizes</span> 
-              <select
-              onChange={(e) => setSize(e.target.value)}
-              className='outline-none border-1 border-gray-500 rounded-md px-2 py-0.5 ml-2'>
-                {
-                  product.sizes.map((size, i) => <option 
-                  value={size}
-                  key={size + "+sizeOption" + i}>{size}</option>)
-                }
-              </select>
-            </div>
-          }
+          
 
           <div>
             <span className='font-semibold'>Quantiy</span> 
@@ -295,10 +332,18 @@ const SingleProduct = () => {
             </select>
           </div>
 
-          <button className='w-48 h-10 cursor-pointer hover:bg-fuchsia-400 hover:scale-105 transition-all duration-300 ease-in-out rounded-lg bg-fuchsia-600 flex items-center gap-2 justify-center text-white'>
+          <motion.button 
+          whileTap={{
+            scale: 0.90,
+          }}
+          transition={{
+            duration: 0.1, 
+            ease: 'easeInOut',
+          }}
+          className='w-48 h-10  cursor-pointer hover:bg-fuchsia-400 hover:scale-105 transition-all duration-300 ease-in-out rounded-lg bg-fuchsia-600 flex items-center gap-2 justify-center text-white'>
             <FontAwesomeIcon icon='shopping-cart'/>
             <span>Add To Cart</span>
-          </button>
+          </motion.button>
           
         </div>
       </div>

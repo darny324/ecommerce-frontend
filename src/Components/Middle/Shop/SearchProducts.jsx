@@ -141,14 +141,12 @@ const SearchProducts = () => {
 
   const container = {
     hidden: {
-      y: 80, 
       opacity: 0, 
     }, 
     show: {
-      y: 0, 
       opacity: 1, 
       transition: {
-        staggerChildren: 0.1, 
+        staggerChildren: 0.2, 
         duration: 1, 
       }
     }, 
@@ -156,12 +154,15 @@ const SearchProducts = () => {
   }
   const itemVariant = {
     hidden: {
-      y: 20, 
+      y: 40, 
       opacity: 0, 
     }, 
     show: {
       y: 0, 
       opacity: 1, 
+      transition: {
+        duration: 0.5,
+      }
     }
   }
   

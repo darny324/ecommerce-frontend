@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import {  useSelector } from "react-redux"
@@ -42,6 +43,7 @@ const CartItem = (prop) => {
 
 const Counter = () => {
   const {cart, totalPrice, totalItems} = useSelector((store) => store.cart);
+  const [payment, setPayment] = useState('paypal');
   
   const container = {
     hidden: {
@@ -88,7 +90,7 @@ const Counter = () => {
       initial={{opacity: 0}}
       animate={{opacity: 1}}
       transition={{duration: 1, ease: 'easeInOut'}}
-      className="px-4 py-2 border border-gray-400 rounded-md h-[250px]">
+      className="px-4 py-4 border border-gray-400 rounded-md md:h-[300px]">
         <h2>Order Summary</h2>
         <table className="w-[300px]">
           <tbody>
@@ -115,7 +117,31 @@ const Counter = () => {
             </tr>
           </tbody>
         </table>
-        <button className="bg-yellow-300 mt-2 cursor-pointer hover:opacity-70 hover:scale-105 transition-all  duratin-300 ease-in-out text-white py-2 rounded-lg w-full font-bold">Purchase Now</button>
+        <div>
+          <div 
+          onClick={() => setPayment('paypal')}
+          className={`px-2 py-1 cursor-pointer border rounded-sm mr-2 ${payment === 'paypal' ? 'border-blue-400' : 'border-stone-300'} inline-block`}>
+            <FontAwesomeIcon icon='fa-brands fa-paypal' className="text-blue-600" /> <span>Paypal</span>
+          </div>
+          <div 
+          onClick={() => setPayment('card')}
+          className={`px-2 py-1 cursor-pointer border rounded-sm mr-2 ${payment === 'card' ? 'border-blue-400' : 'border-stone-300'}  inline-block`}>
+            <FontAwesomeIcon icon='fas fa-credit-card' className="text-red-400" /> <span>Card</span>
+          </div>
+        </div>
+        <motion.button 
+        whileTap={{
+          scale: 0.95, 
+          transition: {
+            duration: 0.1, 
+            ease: 'easeInOut',
+          }
+        }}
+        className="bg-yellow-300 mt-2 cursor-pointer hover:opacity-70 hover:scale-105 
+        transition-all  duratin-300 ease-in-out text-white py-2 rounded-lg w-full 
+        font-bold">
+          Purchase Now
+        </motion.button>
       </motion.div>
     </div>
    </>

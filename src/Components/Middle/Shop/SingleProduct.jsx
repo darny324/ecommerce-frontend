@@ -292,7 +292,7 @@ const SingleProduct = () => {
                   onDoubleClick={() => setModal(true)}
                   
                   key={option.label + index} 
-                  className={`w-22 h-22 p-1 rounded-md cursor-pointer bg-stone-100 shadow-xl ${selectedOption === index ? 'border border-blue-600': ''}`}>
+                  className={`w-22 h-22 p-1 rounded-md bg-[#f0eded] cursor-pointer shadow-xl ${selectedOption === index ? 'border border-blue-600': ''}`}>
                     <p className='line-clamp-2 text-sm text-ellipsis'>{option.label}</p>
                     <p className='text-red-300 text-xs'>${option.price}</p>
                     <p className='text-xs'>{option.quantity}</p>
@@ -335,11 +335,12 @@ const SingleProduct = () => {
           <motion.button 
           whileTap={{
             scale: 0.90,
+            transition: {
+              duration: 0.01, 
+              ease: 'easeInOut',
+            }
           }}
-          transition={{
-            duration: 0.1, 
-            ease: 'easeInOut',
-          }}
+          
           className='w-48 h-10  cursor-pointer hover:bg-fuchsia-400 hover:scale-105 transition-all duration-300 ease-in-out rounded-lg bg-fuchsia-600 flex items-center gap-2 justify-center text-white'>
             <FontAwesomeIcon icon='shopping-cart'/>
             <span>Add To Cart</span>

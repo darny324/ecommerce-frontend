@@ -1,69 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Fragment } from "react";
 import {  useSearchParams } from "react-router-dom";
-import laptopImg from '../../../assets/laptop.png'
-import desktopImg from '../../../assets/desktop.png'
 import SearchCard from "./SearchCard";
 import { motion } from "framer-motion";
-
-const products = [
-  {
-    image: laptopImg,
-    name: "ASUS Zenbook 14 OLED 2024 Business Laptop",
-    rating: 4.2,
-    brand: "ASUS",
-    price: 349.00
-  },
-  {
-    image: desktopImg,
-    name: "Dell Inspiron 15 2024 Touchscreen Laptop",
-    rating: 4.5,
-    brand: "Dell",
-    price: 499.00
-  },
-  {
-    image: laptopImg,
-    name: "HP Pavilion x360 Convertible 14-inch",
-    rating: 4.3,
-    brand: "HP",
-    price: 599.00
-  },
-  {
-    image: laptopImg,
-    name: "Apple MacBook Air M2 (2024)",
-    rating: 4.8,
-    brand: "Apple",
-    price: 999.00
-  },
-  {
-    image: desktopImg,
-    name: "Lenovo ThinkPad X1 Carbon Gen 10",
-    rating: 4.6,
-    brand: "Lenovo",
-    price: 899.00
-  },
-  {
-    image: laptopImg,
-    name: "Acer Swift 3 14-inch Thin & Light Laptop",
-    rating: 4.1,
-    brand: "Acer",
-    price: 429.00
-  },
-  {
-    image: laptopImg,
-    name: "Microsoft Surface Laptop 5 13.5”",
-    rating: 4.7,
-    brand: "Microsoft",
-    price: 1099.00
-  },
-  {
-    image: laptopImg,
-    name: "Samsung Galaxy Book3 Pro 360",
-    rating: 4.4,
-    brand: "Samsung",
-    price: 1299.00
-  }
-];
+import { products } from "../../../../test_products";
 
 
 const Pagination = (prop) => {

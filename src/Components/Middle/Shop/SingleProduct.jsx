@@ -1,96 +1,25 @@
-import Laptop from '../../../assets/laptop.png'
-import Desktop from '../../../assets/desktop.png'
-import Computer from '../../../assets/banner-computer.webp'
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import StarRating from '../../Library/StarRating';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from '../../Library/Modal';
+import { useParams } from 'react-router-dom';
+import { products } from '../../../../test_products';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../../redux/cart';
 
-const product = {
-  id: "soundmax-pro-x3",
-  name: "SoundMax Pro X3 - Wireless Noise-Canceling Headphones",
-  shortName: "SoundMax Pro X3", 
-  brand: "SoundMax",
-  price: 199.99,
-  discount: 0.2,
-  quantity: 6, 
-  options: [
-    {
-      label: "Normal", 
-      price: 199.99, 
-      quantity: 6,
-    },
-    {
-      label: "Writing random nonsense bunch of things to make it longer", 
-      price: 209.99, 
-      quantity: 3,
-    }, 
-    {
-      label: "Green", 
-      price: 209.99, 
-      quantity: 4,
-    }, 
-    {
-      label: "Red", 
-      price: 209.99, 
-      quantity: 5,
-    }
-  ],
-  description: "Industry-leading Active Noise Cancellation (ANC) with up to 40 hours of battery life and Bluetooth 5.2 for ultra-fast pairing.",
-  attributes: {
-    material: "Aluminum & Premium Plastic",
-    connectivity: "Bluetooth 5.2, 3.5mm Audio Jack",
-    noiseCancellation: "Active Noise Cancellation (ANC)",
-    batteryLife: "40 Hours",
-    chargingType: "USB-C Fast Charging",
-    microphone: "Built-in Dual Mic",
-    weight: "250g",
-    driverSize: "40mm",
-    frequencyResponse: "20Hz - 20kHz",
-    charging: "USB-C, 1.5 hours full charge",
-  },
-  features: [
-    "Active Noise Cancellation (ANC)",
-    "Up to 40 hours of battery life",
-    "Fast charging: 10 mins = 5 hours playback",
-    "Bluetooth 5.2 for ultra-fast pairing",
-    "Built-in AI voice assistant support",
-  ],
-  images: [
-    Laptop, Desktop, Computer, Laptop
-  ],
-  reviews: [
-    {
-      user: "John D.",
-      rating: 5,
-      comment: "Best noise-canceling headphones I’ve ever used! Battery life is insane.Best noise-canceling headphones Best noise-canceling headphones Best noise-canceling headphones Best noise-canceling headphones Best noise-canceling headphones Best noise-canceling headphBest noise-canceling headphones ones ",
-    },
-    {
-      user: "Sarah M.",
-      rating: 4,
-      comment: "Super comfortable, but I wish they had more color options!",
-    },
-  ],
-  rating: 4.8,
-  totalReviews: 1245,
-  shipping: {
-    freeShipping: true,
-    estimatedDelivery: "Feb 15-17",
-  },
-  returnPolicy: "30-Day Money-Back Guarantee, 1-Year Warranty Included",
-  sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'], 
-};
+
 
 const Detail = (prop) => {
-  const {addition, returnPolicy} = prop; 
+  const {addition, returnPolicy, description} = prop; 
   const features = Object.entries(addition);
+  
   return (
     <div className='flex flex-col gap-4 w-[90%] md:w-[50%]'>
 
       <div>
         <h2>Description</h2>
-        <p className='text-gray-400 text-sm '> - {product.description}</p>
+        <p className='text-gray-400 text-sm '> - {description}</p>
       </div>
       <div>
         <h2>Additional Features</h2>
@@ -150,6 +79,8 @@ const Review = (prop) => {
 
 
 const SingleProduct = () => {
+  const {id} = useParams();
+  const product = products.find(p => p._id === Number(id));
   const [selectedImg, setSelectedImg] = useState(product.images[0]);
   const [selected, setSelected] = useState('detail');
   const [showAll, setShowAll] = useState(false);
@@ -158,6 +89,8 @@ const SingleProduct = () => {
   const visibleInfo = showAll ? information : information.slice(0, 0);
   const [selectedOption, setSelectedOption] = useState(0);
   const inStock = useRef(product.quantity);
+
+  const dispatch = useDispatch();
   
   
 
@@ -179,6 +112,21 @@ const SingleProduct = () => {
       } else result.push(ch);
     })
     return result.join('');
+  }
+
+  const handleAddToCart = () => {
+    const item = {
+      productId: product._id, 
+      name: product.name, 
+      price: product.options[selectedOption].price,
+      quantity: quantity, 
+      image: product.images[product.main_image_option],
+      optionNum: selectedOption,
+      options: product.options,
+    };
+
+    dispatch(addToCart({item}));
+
   }
 
   return (
@@ -340,6 +288,7 @@ const SingleProduct = () => {
               ease: 'easeInOut',
             }
           }}
+          onClick={() => {handleAddToCart()}}
           
           className='w-48 h-10  cursor-pointer hover:bg-fuchsia-400 hover:scale-105 transition-all duration-300 ease-in-out rounded-lg bg-fuchsia-600 flex items-center gap-2 justify-center text-white'>
             <FontAwesomeIcon icon='shopping-cart'/>
@@ -396,7 +345,7 @@ const SingleProduct = () => {
 
         {
           selected === 'detail' ?
-          <Detail addition={product.features} returnPolicy={product.returnPolicy} />
+          <Detail addition={product.features} returnPolicy={product.returnPolicy} description={product.description} />
           : <Review rating={product.rating} totalReviews={product.totalReviews} reviews={product.reviews} />
         }
 

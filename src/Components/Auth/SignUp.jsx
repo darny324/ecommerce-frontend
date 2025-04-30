@@ -42,7 +42,10 @@ const SignUp = () => {
             <>
               <div className="w-full">
                 <label className="text-sm font-semibold ml-2">Fullname:</label>
-                <input className="bg-gray-200 px-4 w-full py-2 focus:outline-green-300 rounded-md" placeholder='e.g., John Smith' value={fullname} onChange={(e) => setFullname(e.target.value)} />
+                <input className="bg-gray-200 px-4 w-full py-2 focus:outline-green-300 rounded-md" placeholder='e.g., John Smith' value={fullname} onChange={(e) => {
+                  setFullname(e.target.value);
+                  console.log(e.target.value);
+                }} />
               </div>
 
               <div className="w-full">

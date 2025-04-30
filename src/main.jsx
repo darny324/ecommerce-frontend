@@ -6,7 +6,7 @@ import "@fortawesome/free-solid-svg-icons"
 import "@fortawesome/fontawesome-svg-core"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faArrowLeft, faArrowRight, faB, faBars, faCartShopping, faChevronDown, faChevronLeft, faChevronRight, faChevronUp, faCreditCard, faSearch, faShoppingBag, faShoppingCart, faStar, faStarHalf, faStarHalfStroke, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faArrowRight, faB, faBars, faCartShopping, faChevronDown, faChevronLeft, faChevronRight, faChevronUp, faCreditCard, faSearch, faShoppingBag, faShoppingCart, faStar, faStarHalf, faStarHalfStroke, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons'
 import Home from './Components/Middle/Home/Home.jsx'
 import { faCcMastercard, faFacebook, faInstagram, faPaypal, faTelegram, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons'
 import Menu from './Components/Middle/Shop/Menu.jsx'
@@ -16,7 +16,7 @@ import About from './Components/Middle/About/About.jsx'
 import Contact from './Components/Middle/Contact/Contact.jsx'
 import Counter from './Components/Middle/Counter/Counter.jsx'
 import { Provider } from 'react-redux'
-import store from './Components/redux/store.js'
+import store from './redux/store.js'
 import SignIn from './Components/Auth/SignIn.jsx'
 import SignUp from './Components/Auth/SignUp.jsx'
 import Shop from './Components/Middle/Shop/Shop.jsx'
@@ -24,7 +24,7 @@ library.add(faB, faShoppingBag, faBars, faCartShopping, faStar,
   faStarHalf, faStarHalfStroke, faArrowRight, faArrowLeft, faFacebook, 
 faTwitter, faInstagram, faTelegram, faYoutube, faSearch, faChevronDown, 
 faChevronLeft, faChevronRight, faChevronUp, faChevronDown, faShoppingCart, 
-faXmark, faPaypal, faCcMastercard, faCreditCard);
+faXmark, faPaypal, faCcMastercard, faCreditCard, faTrash);
 
 const routes = createBrowserRouter([
   {

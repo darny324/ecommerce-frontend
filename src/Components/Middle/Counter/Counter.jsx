@@ -1,44 +1,63 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import {  useSelector } from "react-redux"
+import {  useDispatch, useSelector } from "react-redux"
+import { changeOption, decrementQuantity, incrementQuantity, removeFromCart } from "../../../redux/cart";
 
 const CartItem = (prop) => {
-  const [isUpdateQuantity, setIsUpdateQuantity] = useState(false);
   const {item, variant} = prop; 
-  return <motion.div 
+  const dispatch = useDispatch();
+  return <motion.tr 
   variants={variant}
-  className="flex items-center px-4 gap-4 py-4 rounded-lg shadow-[0px_0px_10px_rgba(0,0,0,0.3)]">
-    <img src={item.image} className="w-24 h-24 object-contain" />
-    <div>
-      <h2 className="line-clamp-3 overflow-ellipsis">{item.name}</h2>
-      <p className="text-red-500">${item.price.toFixed(2)}</p>
-      {
-        isUpdateQuantity ? 
-        <span className="flex items-center gap-2">
-          <p>Quantity</p>
-          <select className="border-1 border-gray-400 rounded-md">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-          </select>
-          <button className="text-blue-500 cursor-pointer hover:text-blue-400"
-          onClick={() => setIsUpdateQuantity(false)}
-          >Change</button>
-          <button className="text-blue-500 cursor-pointer hover:text-blue-400"
-          onClick={() => setIsUpdateQuantity(false)}
-          >Cancel</button>
-        </span>
-        : <span className="flex items-center gap-2">
-        <p>Quantity:{item.quantity} </p>
-        <button className="text-blue-500 cursor-pointer hover:text-blue-400"
-        onClick={() => setIsUpdateQuantity(true)}
-        >Update</button>
-        <button className="text-blue-500 cursor-pointer hover:text-blue-400">Delete</button>
-      </span>
-      }
-    </div>
-  </motion.div>
+  className="px-4 mt-4 gap-4 py-4 grid items-center grid-cols-[repeat(6,minmax(100px,130px))] rounded-lg shadow-[0px_0px_10px_rgba(0,0,0,0.3)]">
+    <td className="flex items-center">
+      <img src={item.image} className="w-10 h-10 object-contain" />
+      <span className="text-[#004f99] font-semibold line-clamp-1 text-ellipsis">{item.name}</span>
+    </td>
+
+    <td>
+      <span>${item.price}</span>
+    </td>
+
+    <td>
+      <button 
+      onClick={() => {dispatch(decrementQuantity({productId:item.productId}))}}
+      className="py-1 px-2 mr-1 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-200">-</button>
+      <span>{item.quantity}</span>
+      <button 
+      onClick={() => {dispatch(incrementQuantity({productId:item.productId}))}}
+      className="py-1 px-2 ml-1 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-200">+</button>
+    </td>
+
+    <td>
+      <span>${item.price * item.quantity}</span>
+    </td>
+
+    <td>
+      <select 
+      onChange={(e) => {dispatch(changeOption({productId:item.productId, optionNum:Number(e.target.value)}))}}
+      className="w-28 line-clamp-1 text-ellipsis p-2 rounded-lg border border-stone-300">
+        {
+          item.options.map((option, index) => {
+            return <option
+            value={index}
+            >
+              {option.label}
+            </option>
+          })
+        }
+      </select>
+    </td>
+    <td className="text-center">
+      <button 
+      onClick={() => dispatch(removeFromCart({productId:item.productId}))}
+      className="text-red-400 cursor-pointer hover:text-red-500 hover:scale-110 transition-all duration-300 ease-in-out">
+        <FontAwesomeIcon icon={'trash'}/>
+      </button>
+    </td>
+    
+    
+  </motion.tr>
 }
 
 const Counter = () => {
@@ -76,15 +95,30 @@ const Counter = () => {
    <>
    <h1 className="text-center my-12">Checkout({totalItems})</h1>
     <div className="flex flex-col px-6 md:flex-row justify-center mt-4 gap-4">
-      <motion.div
+      <motion.table
       variants={container}
       initial='hidden'
       animate='show' 
-      className="md:w-[35%] flex flex-col gap-4">
+      className="flex flex-col gap-4 text-sm mr-8">
+      {
+        cart?.length > 0 && 
+        <thead>
+          <tr className="grid grid-cols-[repeat(6,minmax(100px,130fr))]">
+            <th className=" text-left ">Product</th>
+            <th className=" text-left">Price</th>
+            <th className=" text-left">Quantity</th>
+            <th className=" text-left">Total</th>
+            <th className=" text-left">Options</th>
+            <th className=" text-left"></th>
+          </tr>
+        </thead>
+      }
+      <tbody>
       {
         cart.map((item) => <CartItem variant={itemVariant} key={item.id+"+cartitem+" + item.name} item={item} />)
       }
-      </motion.div>
+      </tbody>
+      </motion.table>
 
       <motion.div 
       initial={{opacity: 0}}
@@ -109,7 +143,9 @@ const Counter = () => {
               <td>${(totalPrice * (0.1)).toFixed(2)}</td>
             </tr>
 
-            <div className="bg-gray-400 h-0.5 " />
+            <tr>
+            <td className="bg-gray-400 h-0.5 "> </td>
+            </tr>
 
             <tr className="text-red-500 font-bold text-lg h-[50px]">
               <td>Order Total:</td>

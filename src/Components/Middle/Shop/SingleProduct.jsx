@@ -84,10 +84,11 @@ const SingleProduct = () => {
   const [selectedImg, setSelectedImg] = useState(product.images[0]);
   const [selected, setSelected] = useState('detail');
   const [showAll, setShowAll] = useState(false);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const information = Object.entries(product.attributes);
   const visibleInfo = showAll ? information : information.slice(0, 0);
   const [selectedOption, setSelectedOption] = useState(0);
+  const [isAdded, setIsAdded] = useState(false);
   const inStock = useRef(product.quantity);
 
   const dispatch = useDispatch();
@@ -126,6 +127,10 @@ const SingleProduct = () => {
     };
 
     dispatch(addToCart({item}));
+    setIsAdded(true);
+    setTimeout(() => {
+      setIsAdded(false)
+    }, 1.5 * 1000);
 
   }
 
@@ -268,7 +273,10 @@ const SingleProduct = () => {
           <div>
             <span className='font-semibold'>Quantiy</span> 
             <select 
-            onChange={(e) => setQuantity(parseInt(e.target.value))}
+            onChange={(e) => {
+              let value = Number(e.target.value);
+              setQuantity(value);
+            }}
             className='outline-none border-1 border-gray-500 rounded-md px-2 py-0.5 ml-2'>
               {
                 [...Array(inStock.current)].map((_, i) => {
@@ -289,10 +297,19 @@ const SingleProduct = () => {
             }
           }}
           onClick={() => {handleAddToCart()}}
+          disabled={isAdded}
           
           className='w-48 h-10  cursor-pointer hover:bg-fuchsia-400 hover:scale-105 transition-all duration-300 ease-in-out rounded-lg bg-fuchsia-600 flex items-center gap-2 justify-center text-white'>
-            <FontAwesomeIcon icon='shopping-cart'/>
-            <span>Add To Cart</span>
+            {
+              isAdded ? 
+              <>
+              <FontAwesomeIcon icon={'check-circle'} />
+              </>
+              : <>
+              <FontAwesomeIcon icon='shopping-cart'/>
+              <span>Add To Cart</span>
+              </>
+            }
           </motion.button>
           
         </div>

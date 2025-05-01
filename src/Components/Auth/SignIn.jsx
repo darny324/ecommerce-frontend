@@ -14,7 +14,25 @@ const SignIn = () => {
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const isLoading = true;
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFail, setIsFail] = useState(false);
+  let passwordReg = /^(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z]).{8,16}$/;
+  let emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const handleSignIn = () => {
+    if ( emailReg.test(email) && passwordReg.test(password)){
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1.5 * 1000);
+    } else {
+      setIsFail(true);
+      setTimeout(() => {
+        setIsFail(false);
+      }, 2 * 1000);
+    }
+    
+  }
   
   return (
     <div className="flex justify-center items-center h-screen flex-col">
@@ -31,11 +49,23 @@ const SignIn = () => {
             <input className="bg-gray-200 px-4 w-full py-2 focus:outline-green-300 rounded-md" placeholder='e.g., iek293@3829' value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
           
-          <button className="bg-yellow-300 py-2 rounded-md hover:opacity-75 transition-opacity duration-300 ease-in-out text-white cursor-pointer">
+          <button 
+          disabled={isLoading}
+          onClick={() => {handleSignIn()}}
+          className="bg-yellow-300 py-2 rounded-md hover:opacity-75 transition-opacity duration-300 ease-in-out text-white cursor-pointer">
             {isLoading ? <Spinner /> : 'Next'}
           </button>
         </div>
-        </div>
+
+        {
+          isFail && 
+          <div className="text-red-600">Your email or password is invalid</div>
+        }
+      </div>
+      
+      <div className="mt-6">
+        don't have an account? <a href="/sign-up" className="text-blue-500 hover:text-blue-400">Sign Up</a>
+      </div>
     </div>
   )
 }

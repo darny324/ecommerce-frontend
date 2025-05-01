@@ -22,8 +22,6 @@ const InitialCart = [
 
 const initialState = {
   cart: [...InitialCart], 
-  totalPrice: 0.0, 
-  totalItems: 0, 
 }
 
 const Cart = createSlice({
@@ -40,8 +38,6 @@ const Cart = createSlice({
         }
       }
       state.cart.push(payload.item);
-      state.totalItems += payload.item.quantity;
-      state.totalPrice += payload.item.price;
     }, 
     incrementQuantity: (state, {payload}) => {
       const item = state.cart.find((item) => item.productId === payload.productId);
@@ -55,7 +51,7 @@ const Cart = createSlice({
     decrementQuantity: (state, {payload}) => {
       const item = state.cart.find((item) => item.productId === payload.productId);
       if ( item.quantity === 0){
-        item.quantity = 0;
+        state.cart = state.cart.filter((item) => item.productId !== payload.productId);
       } else {
         item.quantity -= 1;
       }
@@ -68,14 +64,19 @@ const Cart = createSlice({
       const item = state.cart.find((item) => item.productId === productId);
       if ( item ){
         item.optionNum = optionNum;
+        item.price = item.options[item.optionNum].price;
+        
         if ( item.quantity > item.options[optionNum].quantity){
           item.quantity = item.options[optionNum].quantity;
         }
       }
+    }, 
+    clearCart: (state) => {
+      state.cart = [];
     }
   }
 })
 
-export const {addToCart, removeFromCart, incrementQuantity, changeOption, decrementQuantity} = Cart.actions;
+export const {addToCart, removeFromCart, incrementQuantity, changeOption, decrementQuantity, clearCart} = Cart.actions;
 
 export default Cart.reducer

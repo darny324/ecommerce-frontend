@@ -6,7 +6,7 @@ import "@fortawesome/free-solid-svg-icons"
 import "@fortawesome/fontawesome-svg-core"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faArrowLeft, faArrowRight, faB, faBars, faCartShopping, faChevronDown, faChevronLeft, faChevronRight, faChevronUp, faCreditCard, faSearch, faShoppingBag, faShoppingCart, faStar, faStarHalf, faStarHalfStroke, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faAngleDown, faArrowDown, faArrowLeft, faArrowRight, faB, faBars, faCartShopping, faCheck, faCheckCircle, faChevronDown, faChevronLeft, faChevronRight, faChevronUp, faCreditCard, faSearch, faShoppingBag, faShoppingCart, faStar, faStarHalf, faStarHalfStroke, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons'
 import Home from './Components/Middle/Home/Home.jsx'
 import { faCcMastercard, faFacebook, faInstagram, faPaypal, faTelegram, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons'
 import Menu from './Components/Middle/Shop/Menu.jsx'
@@ -20,11 +20,13 @@ import store from './redux/store.js'
 import SignIn from './Components/Auth/SignIn.jsx'
 import SignUp from './Components/Auth/SignUp.jsx'
 import Shop from './Components/Middle/Shop/Shop.jsx'
+import Confirm from './Components/Auth/Confirm.jsx'
 library.add(faB, faShoppingBag, faBars, faCartShopping, faStar, 
   faStarHalf, faStarHalfStroke, faArrowRight, faArrowLeft, faFacebook, 
 faTwitter, faInstagram, faTelegram, faYoutube, faSearch, faChevronDown, 
 faChevronLeft, faChevronRight, faChevronUp, faChevronDown, faShoppingCart, 
-faXmark, faPaypal, faCcMastercard, faCreditCard, faTrash);
+faXmark, faPaypal, faCcMastercard, faCreditCard, faTrash, faAngleDown, 
+faCheckCircle);
 
 const routes = createBrowserRouter([
   {
@@ -58,15 +60,15 @@ const routes = createBrowserRouter([
         element: <About />
       }, 
       {
-        path: 'counter', 
-        element: <Counter />
-      }, 
-      {
         path: 'contact', 
         element: <Contact />
       }
     ]
   },
+  {
+    path: 'counter', 
+    element: <Counter />
+  }, 
   {
     path: '/sign-in', 
     element: <SignIn />
@@ -74,6 +76,9 @@ const routes = createBrowserRouter([
   {
     path: '/sign-up', 
     element: <SignUp />
+  }, {
+    path: '/otp', 
+    element: <Confirm />
   }
 ]);
 

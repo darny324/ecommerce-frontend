@@ -92,6 +92,10 @@ const SingleProduct = () => {
   const inStock = useRef(product.quantity);
 
   const dispatch = useDispatch();
+
+  const documentRef = useRef(document);
+
+  documentRef.current.title = product.shortName;
   
   
 

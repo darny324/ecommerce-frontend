@@ -6,7 +6,7 @@ import "@fortawesome/free-solid-svg-icons"
 import "@fortawesome/fontawesome-svg-core"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faAngleDown, faArrowDown, faArrowLeft, faArrowRight, faB, faBars, faCartShopping, faCheck, faCheckCircle, faChevronDown, faChevronLeft, faChevronRight, faChevronUp, faCreditCard, faSearch, faShoppingBag, faShoppingCart, faStar, faStarHalf, faStarHalfStroke, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faAngleDown, faArrowDown, faArrowLeft, faArrowRight, faB, faBars, faBoxArchive, faCartShopping, faCheck, faCheckCircle, faChevronDown, faChevronLeft, faChevronRight, faChevronUp, faCreditCard, faDolly, faSearch, faShoppingBag, faShoppingCart, faStar, faStarHalf, faStarHalfStroke, faTableCells, faTrash, faUser, faUsers, faXmark } from '@fortawesome/free-solid-svg-icons'
 import Home from './Components/Middle/Home/Home.jsx'
 import { faCcMastercard, faFacebook, faInstagram, faPaypal, faTelegram, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons'
 import Menu from './Components/Middle/Shop/Menu.jsx'
@@ -21,12 +21,17 @@ import SignIn from './Components/Auth/SignIn.jsx'
 import SignUp from './Components/Auth/SignUp.jsx'
 import Shop from './Components/Middle/Shop/Shop.jsx'
 import Confirm from './Components/Auth/Confirm.jsx'
+import MainPage from './Components/Admin/main/MainPage.jsx'
+import Dashboard from './Components/Admin/Page/dashboard/Dashboard.jsx'
+import AdminProudcts from './Components/Admin/Page/products/AdminProducts.jsx'
+import Orders from './Components/Admin/Page/orders/Orders.jsx'
+import Customers from './Components/Admin/Page/customers/Customers.jsx'
 library.add(faB, faShoppingBag, faBars, faCartShopping, faStar, 
   faStarHalf, faStarHalfStroke, faArrowRight, faArrowLeft, faFacebook, 
 faTwitter, faInstagram, faTelegram, faYoutube, faSearch, faChevronDown, 
 faChevronLeft, faChevronRight, faChevronUp, faChevronDown, faShoppingCart, 
 faXmark, faPaypal, faCcMastercard, faCreditCard, faTrash, faAngleDown, 
-faCheckCircle);
+faCheckCircle, faBoxArchive, faDolly, faUsers, faUser);
 
 const routes = createBrowserRouter([
   {
@@ -79,6 +84,25 @@ const routes = createBrowserRouter([
   }, {
     path: '/otp', 
     element: <Confirm />
+  }, 
+  {
+    path: '/admin', 
+    element: <MainPage />,
+    children: [
+      {
+        path: 'dashboard', 
+        element: <Dashboard />
+      }, {
+        path: 'products', 
+        element: <AdminProudcts />
+      }, {
+        path: 'orders', 
+        element: <Orders />
+      }, {
+        path: 'customers', 
+        element: <Customers />
+      }
+    ]
   }
 ]);
 

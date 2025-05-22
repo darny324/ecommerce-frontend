@@ -27,8 +27,9 @@ const AdminNavBar = () => {
         <h2 className='my-5 text-success'>ShopSphere</h2>
 
         {
-            adminNav.map((page) => {
+            adminNav.map((page, i) => {
                 return <Link 
+                key={page + "adminvav+" +i }
                 to={page.name.toLowerCase()}
                 className='
                 py-4 cursor-pointer text-primary hover:bg-primary font-semibold hover:text-white w-full

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import CheckSection from "./CheckSection";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -21,20 +20,11 @@ const discount = [
 const Filter = (prop) => {
   const {children} = prop; 
   const [isShow, setIsShow] = useState(false);
-  const [sliderValue, setSliderValue] = useState(20);
+  
   return (
     <div className="relative">
       <div className="hidden md:flex md:flex-col gap-4 pl-8">
-        <div>
-          <p>${sliderValue.toFixed(2)}</p>
-          <input type="range" min='20' max='20000' value={sliderValue}
-          onChange={(e) => setSliderValue(parseInt(e.target.value))}
-          />
-          <button className="border border-gray-400 cursor-pointer hover:bg-gray-200 px-2 rounded-3xl">Find</button>
-        </div>
-        <CheckSection title='Ratings'  options={ratings} filterType='numeric' />
-        <CheckSection title='Discount' options={discount} filterType='numeric'/>
-        <CheckSection title='Condition' filterType='numeric'  options={[{label:'new', value: 'condition=new'}, {label:'used', value: 'condition=used'}]} />
+        
         {children}
       </div>
 
@@ -68,16 +58,7 @@ const Filter = (prop) => {
         }}
         exit={{y:300}}
         className="px-4 rounded-lg bg-white  py-2 h-[500px] w-[100vw] overflow-y-scroll scrollbar-hidden">
-          <div>
-            <p>${sliderValue.toFixed(2)}</p>
-            <input type="range" min='20' max='20000' value={sliderValue}
-            onChange={(e) => setSliderValue(parseInt(e.target.value))}
-            />
-            <button className="border border-gray-400 cursor-pointer hover:bg-gray-200 px-2 rounded-3xl">Find</button>
-          </div>
-          <CheckSection title='Ratings'  options={ratings} filterType='numeric' />
-          <CheckSection title='Discount'  options={discount} filterType='numeric' />
-          <CheckSection title='Condition'   options={[{label:'new', value: 'condition=new'}, {label:'used', value: 'condition=used'}]} filterType='numeric' />
+        
           {children}
 
           <button 

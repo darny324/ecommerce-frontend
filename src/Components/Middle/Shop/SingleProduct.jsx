@@ -187,6 +187,17 @@ const SingleProduct = () => {
 
           <div>
             <h2 className='md:text-xl text-lg'>Products Information</h2>
+            <motion.button 
+            layout='preserve-aspect'
+            className='
+            text-blue-500 hover:text-blue-300 transition-colors duration-500
+            ease-in-out md:text-bg text-sm flex items-center gap-2'
+            onClick={() => setShowAll(!showAll)}
+            on
+            >
+              <span>{showAll ? 'See less' : 'See more'}</span>
+              <FontAwesomeIcon icon={showAll ? 'chevron-up' : 'chevron-down'} />
+            </motion.button>
             <table className="w-full">
               <motion.tbody>
                 <AnimatePresence>
@@ -207,17 +218,7 @@ const SingleProduct = () => {
                 </AnimatePresence>
               </motion.tbody>
             </table>
-            <motion.button 
-            layout='preserve-aspect'
-            className='
-            text-blue-500 hover:text-blue-300 transition-colors duration-500
-            ease-in-out md:text-bg text-sm flex items-center gap-2'
-            onClick={() => setShowAll(!showAll)}
-            on
-            >
-              <span>{showAll ? 'See less' : 'See more'}</span>
-              <FontAwesomeIcon icon={showAll ? 'chevron-up' : 'chevron-down'} />
-            </motion.button>
+            
           </div>
           {
             product.options && <div>

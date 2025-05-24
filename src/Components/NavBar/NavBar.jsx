@@ -4,6 +4,8 @@ import { Link, useLocation } from "react-router-dom"
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import logoName from '../../assets/logo-name.png'
+import { useSelector } from "react-redux";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const items = ['Home', 'Shop', 'About' ,'Contact', 'Counter'];
 
@@ -17,6 +19,7 @@ const NavBar = () => {
   if ( pathname.startsWith('/counter')) path = 'Counter';
   const [selected, setSelected] = useState(path);
   const [clickMenu, setClickMenu] = useState(false);
+  const {isLoggedIn} = useSelector((store) => store.user);
   
   return (
     <nav className='flex shadow-[0px_5px_5px_rgba(0,0,0,0.25)] h-12 justify-between items-center px-4 sm:px-16 z-10 sticky top-0 bg-stone-100'>
@@ -69,13 +72,26 @@ const NavBar = () => {
           })
         }
 
-        <Link to='sign-in' className="relative">
+        {
+          !isLoggedIn ? 
+          <Link to='sign-in' className="relative">
           <motion.span whileHover={{
             color: '#2199de', 
           }}>
           Sign In
           </motion.span>
         </Link>
+        : <Link to='user' className='relative'>
+          <motion.span whileHover={{
+            color: '#2199de', 
+            transition: {
+              duration: 500, 
+            }
+          }}>
+            <FontAwesomeIcon icon={faUser} className="text-lg" />
+          </motion.span>
+        </Link>
+        }
       </motion.div>
       
       <AnimatePresence>
@@ -136,13 +152,26 @@ const NavBar = () => {
               )
             })
           }
-          <Link to='sign-in' className="relative">
+          {
+            !isLoggedIn ? 
+            <Link to='sign-in' className="relative">
             <motion.span whileHover={{
               color: '#2199de', 
             }}>
             Sign In
             </motion.span>
           </Link>
+          : <Link to='user' className='relative'>
+            <motion.span whileHover={{
+              color: '#2199de', 
+              transition: {
+                duration: 500, 
+              }
+            }}>
+              <FontAwesomeIcon icon={faUser} className="text-lg" />
+            </motion.span>
+          </Link>
+          }
         </motion.div>
       }
       </AnimatePresence>

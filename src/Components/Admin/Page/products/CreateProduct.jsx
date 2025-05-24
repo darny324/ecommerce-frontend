@@ -1,7 +1,10 @@
+import { faCheck, faCheckCircle, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
 import { p } from 'framer-motion/client';
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom';
+import { uploadImagesToCloudinary } from '../../../../../upload_image';
 
 const CreateProduct = () => {
   const [addOption, setAddOption] = useState(false);
@@ -9,14 +12,19 @@ const CreateProduct = () => {
   const [option, setOption] = useState({});
   const [feature, setFeature] = useState('');
   const [images, setImages] = useState([]);
+  const [showStatus, setShowStatus] = useState(false);
+  const status = useRef(false);
+  const [showCategory, setShowCategory] = useState(false);
 
   const onInput = (e, isNum) => {
     let value = e.target.value;
+    let reg = (/^(([0-9.]?)*)+$/);
+
     if ( isNum ){
-      const reg = new RegExp('^[0-9]+$');
       if ( reg.test(value) || value == '')
       {
-        value = Number(value);
+        setProduct( p => ({...p, [e.target.name]:value}));
+        return;
       } else return;
     }
     setProduct( p => ({...p, [e.target.name]:value}));
@@ -25,9 +33,11 @@ const CreateProduct = () => {
   const onOptionChange = (e, isNum) => {
     let value = e.target.value;
     if ( isNum ){
-      const reg = new RegExp('^[0-9]+$');
+      let reg = (/^(([0-9.]?)*)+$/);
+
       if ( reg.test(value) || value == ''){
-        value = Number(value);
+        setOption( p => ({...p, [e.target.name]:value}));
+        return;
       } else {
         return;
       }
@@ -68,7 +78,50 @@ const CreateProduct = () => {
       setImages(img => ([...img, {file:e.target.files[0], url: url}]));
     }
   }
-  console.log(images);
+
+  const handleCreateProduct = async () => {
+    try {
+      const imageUrls = await uploadImagesToCloudinary(images);
+      console.log(imageUrls);
+      const options = [];
+      if ( product.options ){
+        for ( let i = 0; i < product.options.length; i++ ){
+          options.push({
+            label: product.options[i].label, 
+            quantity: parseInt(product.options[i].quantity),
+            price: parseFloat(product.options[i].price),
+          });
+        }
+      }
+      const res = await axios.post(`http://localhost:5000/api/v1/ecommerce/products`, {
+        name: product.name, 
+        shortName: product.shortName, 
+        category: product.category, 
+        price: parseFloat(product.price), 
+        quantity: parseInt(product.quantity), 
+        discount: parseFloat(product.discount), 
+        attributes: product.attributes, 
+        features: product.features, 
+        returnPolicy: product.returnPolicy, 
+        description: product.description, 
+        images: imageUrls, 
+        options: options, 
+        main_image_option: product.main_image_option - 1, 
+        featured: product.featured ? product.featured : false,
+      });
+      if ( res.data.status ){
+        setShowStatus(true);
+        status.current = true;
+      }
+    } catch (err){
+      setShowStatus(true);
+      status.current = false;
+      console.log(err, "Error in Creating Product");
+    }
+    setTimeout(() => {
+      setShowStatus(false);
+    }, 1000 * 3);
+  }
 
   return (
     <div className='bg-gray-300 w-full flex flex-col gap-2 items-center py-4'>
@@ -81,7 +134,52 @@ const CreateProduct = () => {
             <input value={product.discount ? product.discount : ''} onChange={(e) => {onInput(e, true)}} placeholder='discount' type='text' name='discount' className=' w-full bg-stone-200 rounded-md p-2' />
             <input value={product.quantity ? product.quantity : ''} onChange={(e) => {onInput(e, true)}} placeholder='quantity' type='text' name='quantity' className=' w-full bg-stone-200 rounded-md p-2' />
             <textarea value={product.description ? product.description : ''} onChange={(e) => {onInput(e, false)}} placeholder='description' name='description' className=' w-full h-[150px] bg-stone-200 rounded-md p-2'></textarea>
-            <input value={product.quantity ? product.quantity : ''} onChange={(e) => {onInput(e, false)}} placeholder='Return Policy' type='text' name='returnPolicy' className=' w-full bg-stone-200 rounded-md p-2' />
+            <input value={product.returnPolicy ? product.returnPolicy : ''} onChange={(e) => {onInput(e, false)}} placeholder='Return Policy' type='text' name='returnPolicy' className=' w-full bg-stone-200 rounded-md p-2' />
+
+            <div className='relative'>
+              <label className='block text-sm text-gray-500 ml-2 mb-1'>Category</label>
+              <button 
+              onClick={() => setShowCategory(!showCategory)}
+              className='btn btn-sm btn-neutral btn-soft'>
+                {product.category ? product.category : 'No Option'} 
+                <FontAwesomeIcon icon={faChevronDown} />
+              </button>
+              {
+                showCategory && 
+                <ul className='absolute menu z-1 bg-white gap-3 shadow-sm rounded-md p-2'>
+                  <li
+                  onClick={() => {
+                    setShowCategory(false);
+                    setProduct((p) => ({...p, category:'Desktops & Laptops'}))
+                  }}
+                  className='p-1 hover:bg-gray-200 rounded-md cursor-pointer'>Desktops & Laptops</li>
+                  <li
+                  onClick={() => {
+                    setShowCategory(false);
+                    setProduct((p) => ({...p, category:'Televisions & Monitors'}))
+                  }}
+                  className='p-1 hover:bg-gray-200 rounded-md cursor-pointer'>Televisions & Monitors</li>
+                  <li
+                  onClick={() => {
+                    setShowCategory(false);
+                    setProduct((p) => ({...p, category:'Gaming Consoles'}))
+                  }}
+                  className='p-1 hover:bg-gray-200 rounded-md cursor-pointer'>Gaming Consoles</li>
+                  <li
+                  onClick={() => {
+                    setShowCategory(false);
+                    setProduct((p) => ({...p, category:'Smartphones & Tablets'}))
+                  }}
+                  className='p-1 hover:bg-gray-200 rounded-md cursor-pointer'>Smartphones & Tablets</li>
+                  <li
+                  onClick={() => {
+                    setShowCategory(false);
+                    setProduct((p) => ({...p, category:'Computer Accessories'}))
+                  }}
+                  className='p-1 hover:bg-gray-200 rounded-md cursor-pointer'>Computer Accessories</li>
+                </ul>
+              }
+            </div>
             <div>
                 <button 
                 onClick={() => {setAddOption(!addOption)}}
@@ -199,7 +297,24 @@ const CreateProduct = () => {
                     images.map((img, index) => {
                       return <div 
                       id={"image" + index}
-                      key={img.url + "+" + index + "+image"} className='carousel-item bg-gray-300 rounded-lg w-full h-full flex justify-center'>
+                      key={img.url + "+" + index + "+image"} className='carousel-item bg-gray-300 rounded-lg w-full h-full flex justify-center relative'>
+                        <div>
+                          <FontAwesomeIcon 
+                          onClick={() => {
+                            setProduct((p) => ({...p, main_image_option:index + 1}));
+                          }}
+                          icon={faCheckCircle} className={`
+                          absolute text-lg cursor-pointer left-1 top-1 ${product.main_image_option ? `${product.main_image_option === index + 1? 'text-blue-400' : ''}` : ""}`} />
+                        </div>
+                        <button
+                          onClick={() => {
+                            const imgs = images.filter((img,i) => i !== index);
+                            setImages((i) => imgs);
+                          }}
+                          className='indicator-item absolute right-1 top-1 bg-white w-5 h-5 rounded-full flex justify-center items-center text-base tooltip tooltip-left tooltip-error cursor-pointer status status-error' >
+                            <div className='tooltip-content'>Delete Image</div>
+                          <FontAwesomeIcon icon='fa-solid fa-xmark'/>
+                        </button>
                         <img src={img.url} className='w-full h-full object-contain rounded-lg' />
                       </div>
                     })
@@ -219,12 +334,30 @@ const CreateProduct = () => {
                 }
             </div>
 
+            <div>
+              <input type='checkbox' className='checkbox' checked={product.featured ? product.featured : false} onChange={(e) => {
+                setProduct((p) => ({...p, featured: p.featured ? !p.featured:true}));
+              }}/>
+              <label className='font-semibold ml-2'>Shoud Featured</label>
+            </div>
+
             <div className='flex items-center gap-2'>
-              <button className='btn btn-primary'>Create</button>
+              <button className='btn btn-primary'
+              onClick={() => {handleCreateProduct();}}
+              >Create</button>
               <Link 
               to='../'
               className='btn btn-error btn-soft'>Cancel</Link>
             </div>
+            {
+              showStatus && 
+              <div>
+              {status.current ? 
+                <div className='text-base text-success'>Successfull Added the Product</div>
+                :<div className='text-base text-error'>Error in Adding the product</div>  
+              }
+              </div>
+            }
         </div>
     </div>
   )

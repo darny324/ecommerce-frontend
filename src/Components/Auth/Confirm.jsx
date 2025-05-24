@@ -1,5 +1,10 @@
+import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { BACKEND_URL } from '../../main';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/user';
+import localforage from 'localforage';
 
 const Spinner = () => {
     return (
@@ -15,10 +20,11 @@ const Confirm = () => {
     const [timer, setTimer] = useState(120);
     const [otp, setOtp] = useState('');
     const timerRef = useRef();
+    const navigate = useNavigate();
+    
 
     const query = useSearchParams();
-    const {email, password, name} = Object.fromEntries(query[0]);
-    console.log(email, password, name);
+    const {email, password, name, country, state, city} = Object.fromEntries(query[0]);
     useEffect(() => {
         timerRef.current = setInterval(() => {
             setTimer(t => t - 1);
@@ -35,11 +41,26 @@ const Confirm = () => {
         }
     }, [timer])
 
-    const confirmOtp = () => {
+    const confirmOtp = async () => {
         setIsLoading(true);
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 1.5 * 1000);
+        try {
+            const verifyResponse = await axios.patch(`http://localhost:5000/api/v1/ecommerce/users/verify-otp`, {
+                otp: otp, 
+                email: email, 
+            });
+            if ( verifyResponse.data.verified === true){
+                console.log("hi");
+                const response = await axios.post(`${BACKEND_URL}/users/auth/sign-up`, {
+                    email, name, password, country, state, city
+                });
+                setIsLoading(false);
+                const {token, success} = response.data;
+                await localforage.setItem("token", token);
+                navigate('/');
+            }
+        } catch (err){
+            console.log(err);
+        }
     }
     return (
         <div className="flex justify-center items-center h-screen flex-col">

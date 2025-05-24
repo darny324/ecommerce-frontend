@@ -1,4 +1,8 @@
-import { useState } from "react";
+import axios from "axios";
+import { useRef, useState } from "react";
+import { BACKEND_URL } from "../../main";
+import { useNavigate } from "react-router-dom";
+import localforage from "localforage";
 
 const Spinner = () => {
   return (
@@ -16,20 +20,51 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isFail, setIsFail] = useState(false);
+  const errorMessage = useRef('Your Email or Password is invalid');
   let passwordReg = /^(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z]).{8,16}$/;
   let emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const navigate = useNavigate();
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     if ( emailReg.test(email) && passwordReg.test(password)){
       setIsLoading(true);
-      setTimeout(() => {
+      try {
+        const res = await axios.patch(`http://localhost:5000/api/v1/ecommerce/users/auth/sign-in`, {
+          email, password
+        });
+        console.log(res.data);
+        if ( res.data.status === true) {
+          const {token} = res.data;
+          await localforage.setItem("token", token);
+          navigate('/');
+        } else {
+          const {error} = res.data;
+          
+          setIsFail(true);
+          setTimeout(() => {
+            setIsFail(false);
+          }, 2 * 1000);
+          errorMessage.current = error;
+        }
+
         setIsLoading(false);
-      }, 1.5 * 1000);
+
+      } catch (err) {
+        console.log(err, "Error in Sign In page");
+        setIsLoading(false);
+        setIsFail(true);
+        setTimeout(() => {
+          setIsFail(false);
+        }, 2 * 1000);
+        errorMessage.current = "Unable to login";
+      }
     } else {
+      
       setIsFail(true);
       setTimeout(() => {
         setIsFail(false);
       }, 2 * 1000);
+      errorMessage.current = "Your Email or Password is invalid";
     }
     
   }
@@ -59,7 +94,7 @@ const SignIn = () => {
 
         {
           isFail && 
-          <div className="text-red-600">Your email or password is invalid</div>
+          <div className="text-red-600">{errorMessage.current}</div>
         }
       </div>
       

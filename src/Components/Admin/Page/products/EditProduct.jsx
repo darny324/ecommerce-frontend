@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useActionData, useFetcher, useParams, useSearchParams } from 'react-router-dom'
-import { products } from '../../../../../test_products';
+import { Link, useLoaderData } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const EditProduct = () => {
-  const {id} = useParams();
-  const currentProduct = products.find((p) => p._id === Number(id));
+  const {product:currentProduct} = useLoaderData();
   const [addOption, setAddOption] = useState(false);
   const [product, setProduct] = useState(currentProduct);
   const [option, setOption] = useState({});

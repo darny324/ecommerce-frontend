@@ -1,7 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useRef, useState } from 'react'
 import { products } from '../../../../../test_products';
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { motion } from 'framer-motion';
+
 
 
 const categories = [
@@ -25,6 +28,12 @@ const ProductQuery = () => {
     const sorting = useRef(sort[0]);
     
     const [showSort, setShowSort] = useState(false);
+
+    const data = useLoaderData();
+    const [products, setProducts] = useState(data.products);
+    
+    
+    
   return (
     <div className='bg-gray-300 py-4 h-full w-full flex flex-col'>
         
@@ -42,7 +51,20 @@ const ProductQuery = () => {
 
         <div className='flex-1 bg-white mx-8 rounded-field'>
             <div className='px-4 py-2 flex justify-between border-b border-b-gray-300'>
-                <input className='input input-gray-300 rounded-box w- focus:outline-none  outline-none' placeholder='Search' />
+                <div className='bg-gray-300 p-2 rounded-md w-[400px] gap-2 flex flex-items-center'>
+                    <input className='outline-none flex-1' placeholder='Search' />
+                    <motion.button 
+                    whileTap={{
+                        y: 2, 
+                        transition: {
+                            duration: '1s',
+                            ease: 'easeInOut',
+                        }
+                    }}
+                    className='bg-blue-400 text-lg px-2 rounded-sm cursor-pointer hover:bg-blue-300'>
+                    <FontAwesomeIcon icon={faSearch} className='text-white' />
+                    </motion.button>
+                </div>
                 
                 <div className='flex gap-4'>
                     <div className='relative'>
@@ -92,7 +114,9 @@ const ProductQuery = () => {
                                 
                                 {
                                     sort.map((c) => {
-                                        return <div className='p-2 hover:bg-gray-300 rounded-field cursor-pointer'
+                                        return <div 
+                                        key={c + "sortBy"}
+                                        className='p-2 hover:bg-gray-300 rounded-field cursor-pointer'
                                         onClick={() => {
                                             sorting.current = c;
                                             setShowSort(false);
@@ -142,7 +166,7 @@ const ProductQuery = () => {
                             <figure className=''>
                                 <img 
                                 className='h-[180px] object-contain'
-                                src={product.images[product.main_image_option]}
+                                src={product.images[0]}
                                 />
                             </figure>
                             <div className='card-body gap-1 px-4 '>

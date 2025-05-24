@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { useSelector } from "react-redux"
 
 const Footer = () => {
+  const {isLoggedIn} = useSelector((store) => store.user);
   return (
     <div className="mt-4">
       <div 
@@ -11,11 +13,15 @@ const Footer = () => {
           <p className="font-bold text-xl text-white">Sign up for ShopSphere</p>
           <p className="text-gray-400">Get email about our latest shops and <span className="text-yellow-400">special offers</span></p>
         </div>
-        <motion.button >
+        {
+          !isLoggedIn && 
+          <motion.button >
           <Link to='/sign-up' className="
         text-white text-lg border border-s-gray-100 hover:bg-blue-500 hover:border-none transition-colors duration-1000 ease-in-out px-4 py-2 rounded-lg">
-          Sign Up</Link>
+          Sign Up
+          </Link>
         </motion.button>
+        }
       </div>
 
       <div className="md:flex md:flex-wrap px-20 justify-around text-gray-400 my-12">

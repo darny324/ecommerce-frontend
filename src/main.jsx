@@ -36,6 +36,9 @@ import SingleCustomer from './Components/Admin/Page/customers/SingleCustomer.jsx
 import User from './Components/Middle/User/User.jsx'
 import EditUser from './Components/Middle/User/EditUser.jsx'
 import UserInfo from './Components/Middle/User/UserInfo.jsx'
+import { loader as AppLoader } from './App.jsx'
+import { loader as EditQueryLoader } from './Components/Admin/Page/products/editProductLoader.js'
+import { loader as ProductQueryLoader } from './Components/Admin/Page/products/productQueryLoader.js'
 library.add(faB, faShoppingBag, faBars, faCartShopping, faStar, 
   faStarHalf, faStarHalfStroke, faArrowRight, faArrowLeft, faFacebook, 
 faTwitter, faInstagram, faTelegram, faYoutube, faSearch, faChevronDown, 
@@ -48,6 +51,7 @@ const routes = createBrowserRouter([
   {
     path: '/', 
     element: <App />, 
+    loader: AppLoader, 
     children: [
       {
         index: '/', 
@@ -123,7 +127,8 @@ const routes = createBrowserRouter([
         children: [
           {
             index: true, 
-            element: <ProductQuery />
+            element: <ProductQuery />,
+            loader: ProductQueryLoader, 
           },
           {
             path: 'create', 
@@ -131,7 +136,8 @@ const routes = createBrowserRouter([
           }, 
           {
             path: 'edit/:id', 
-            element: <EditProduct />
+            element: <EditProduct />,
+            loader: EditQueryLoader,
           }
         ]
       }, {
@@ -164,6 +170,8 @@ const routes = createBrowserRouter([
     ]
   }
 ]);
+
+export const BACKEND_URL = "http://localhost:5000/api/v1/ecommerce";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
